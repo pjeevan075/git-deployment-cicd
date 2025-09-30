@@ -11,6 +11,12 @@ jobs:
       - name: Checkout this repo
         uses: actions/checkout@v4
 
+      - name: Checkout Maven settings repo
+        uses: actions/checkout@v4
+        with:
+          repository: pjeevan075/maven
+          path: maven-settings
+
       - name: Cache dependencies
         uses: actions/cache@v4
         with:
@@ -24,18 +30,9 @@ jobs:
           distribution: zulu
           java-version: 17
 
-      - name: Build JAR
-        run: mvn clean package -DmuleDeploy
-
-      - name: Download shared settings.xml
-        run: |
-          git clone --depth 1 https://github.com/pjeevan075/maven.git
-          mkdir -p .maven
-          cp maven-settings-repo/.maven/settings.xml .maven/settings.xml
-
       - name: Publish to Exchange
         run: |
-          mvn deploy --settings .maven/settings.xml -DskipMunitTests \
+          mvn deploy --settings maven-settings/.maven/settings.xml -DskipMunitTests \
             -Danypoint.username="76f002fff9c041d78a663b0a26bc008f" \
             -Danypoint.password="a8055e977df843bCB9fFB5683E52A9BA"
 
@@ -47,6 +44,12 @@ jobs:
       - name: Checkout this repo
         uses: actions/checkout@v4
 
+      - name: Checkout Maven settings repo
+        uses: actions/checkout@v4
+        with:
+          repository: pjeevan075/maven
+          path: maven-settings
+
       - name: Cache dependencies
         uses: actions/cache@v4
         with:
@@ -55,21 +58,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Download shared settings.xml
-        run: |
-          git clone --depth 1 https://github.com/pjeevan075/maven.git
-          mkdir -p .maven
-          cp maven-settings-repo/.maven/settings.xml .maven/settings.xml
-
       - name: Deploy to dev
         run: |
-          mvn deploy --settings .maven/settings.xml -DskipMunitTests -DmuleDeploy \
+          mvn deploy --settings maven-settings/.maven/settings.xml -DskipMunitTests -DmuleDeploy \
             -Danypoint.username="76f002fff9c041d78a663b0a26bc008f" \
             -Danypoint.password="a8055e977df843bCB9fFB5683E52A9BA" \
             -Danypoint.businessGroup="a62f6236-0b02-4e5f-a8eb-dc5e37aedb12" \
             -Denv="Dev" \
             -Dappname="demo-cicd" \
             -Danypoint.platform.client_id="777df98bcd084a75bfe4b973a9e53516" \
-            -Danypoint.platform.client_secret="AF10d59Ee8C64EFb85BCc8474b2aA7eD" \
+            -Danypoint.platform.client_secret="AF10d59Ee8C64EFb85BCc8474b2aA7eD"
             # -Dmule.env="${{ secrets.MULE_ENV }}" \
             # -Dkey="${{ secrets.KEY }}"
