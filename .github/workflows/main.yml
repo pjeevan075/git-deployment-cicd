@@ -29,15 +29,15 @@ jobs:
 
       - name: Download shared settings.xml
         run: |
-          git clone --depth 1 https://github.com/Indrajith045/maven-settings-repo.git
+          git clone --depth 1 https://github.com/pjeevan075/maven
           mkdir -p .maven
           cp maven-settings-repo/.maven/settings.xml .maven/settings.xml
 
       - name: Publish to Exchange
         run: |
           mvn deploy --settings .maven/settings.xml -DskipMunitTests \
-            -Danypoint.username="${{ secrets.USER }}" \
-            -Danypoint.password="${{ secrets.PASS }}"
+            -Danypoint.username="76f002fff9c041d78a663b0a26bc008f" \
+            -Danypoint.password="a8055e977df843bCB9fFB5683E52A9BA"
 
   deploydev:
     needs: build
@@ -57,19 +57,19 @@ jobs:
 
       - name: Download shared settings.xml
         run: |
-          git clone --depth 1 https://github.com/Indrajith045/maven-settings-repo.git
+          git clone --depth 1 https://github.com/pjeevan075/maven
           mkdir -p .maven
           cp maven-settings-repo/.maven/settings.xml .maven/settings.xml
 
       - name: Deploy to dev
         run: |
           mvn deploy --settings .maven/settings.xml -DskipMunitTests -DmuleDeploy \
-            -Danypoint.username="${{ secrets.USER }}" \
-            -Danypoint.password="${{ secrets.PASS }}" \
-            -Danypoint.businessGroup="${{ secrets.ANYPOINT_ORG_ID }}" \
-            -Denv="${{ secrets.ENV }}" \
-            -Dappname="${{ secrets.APP_NAME }}" \
-            -Danypoint.platform.client_id="${{ secrets.ENV_CLIENT_ID }}" \
-            -Danypoint.platform.client_secret="${{ secrets.ENV_CLIENT_SECRET }}" \
-            -Dmule.env="${{ secrets.MULE_ENV }}" \
-            -Dkey="${{ secrets.KEY }}"
+            -Danypoint.username="76f002fff9c041d78a663b0a26bc008f" \
+            -Danypoint.password="a8055e977df843bCB9fFB5683E52A9BA" \
+            -Danypoint.businessGroup="a62f6236-0b02-4e5f-a8eb-dc5e37aedb12" \
+            -Denv="Dev" \
+            -Dappname="demo-cicd" \
+            -Danypoint.platform.client_id="777df98bcd084a75bfe4b973a9e53516" \
+            -Danypoint.platform.client_secret="AF10d59Ee8C64EFb85BCc8474b2aA7eD" \
+            # -Dmule.env="${{ secrets.MULE_ENV }}" \
+            # -Dkey="${{ secrets.KEY }}"
